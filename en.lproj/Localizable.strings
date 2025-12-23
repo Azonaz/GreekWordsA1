@@ -19,7 +19,9 @@
 
 Each round has 10 questions.
 
-Words are divided into groups, and the counter on the right side of each group shows how many words you have already seen and the total number of words in that group.
+You can choose a game mode:
+• By groups — words are grouped by topics, and the counter next to each group shows how many words you have already seen and the total number of words in that group;
+• Random — words are selected from the entire vocabulary without being tied to specific topics.
 
 In the Settings section, you can select your preferred language or enable blur mode to hide answers until you tap the screen.
 
@@ -85,5 +87,5 @@ To open a group, complete at least one topic in the Quiz section.";
 "otherLevels" = "Other levels";
 "a1" = "Current level";
 "a2" =  "The next step in learning";
-"b1" = "The next step in learning";
+"b1" = "Ready to expand your vocabulary?";
 "here" = "You're here";
