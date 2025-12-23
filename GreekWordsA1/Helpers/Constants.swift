@@ -41,6 +41,9 @@ enum Texts {
     static let reverseQuiz: LocalizedStringKey = "reverseQuiz"
     static let reverseQuizInfo: LocalizedStringKey = "reverseQuizInfo"
     static let reverseQuizHelp: LocalizedStringKey = "reverseQuizHelp"
+    static let levels: LocalizedStringKey = "levels"
+    static let here: LocalizedStringKey = "here"
+    static let otherLevels: LocalizedStringKey = "otherLevels"
 
     static var allWords: String {
         NSLocalizedString("allWords", comment: "")
@@ -96,5 +99,17 @@ enum Texts {
 
     static var noPurchase: String {
         NSLocalizedString("noPurchase", comment: "")
+    }
+    
+    static var a1Level: String {
+        NSLocalizedString("a1", comment: "")
+    }
+
+    static var a2Level: String {
+        NSLocalizedString("a2", comment: "")
+    }
+
+    static var b1Level: String {
+        NSLocalizedString("b1", comment: "")
     }
 }

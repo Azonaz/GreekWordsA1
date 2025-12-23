@@ -29,30 +29,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84F3502D2EAF7CEC00E9C8C9"
-               BuildableName = "GreekWordsA1Tests.xctest"
-               BlueprintName = "GreekWordsA1Tests"
-               ReferencedContainer = "container:GreekWordsA1.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84F350372EAF7CEC00E9C8C9"
-               BuildableName = "GreekWordsA1UITests.xctest"
-               BlueprintName = "GreekWordsA1UITests"
-               ReferencedContainer = "container:GreekWordsA1.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

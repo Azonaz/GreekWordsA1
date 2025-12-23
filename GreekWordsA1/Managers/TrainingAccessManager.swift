@@ -4,8 +4,8 @@ import Combine
 final class TrainingAccessManager: ObservableObject {
     private let kvs = NSUbiquitousKeyValueStore.default
 
-    private let trialStartKey = "trainingTrialStartDate"
-    private let unlockKey = "trainingUnlocked"
+    private let trialA1StartKey = "trainingTrialA1StartDate"
+    private let unlockA1Key = "trainingA1Unlocked"
 
     @Published private(set) var hasAccess: Bool = false
     @Published private(set) var isInTrial: Bool = false
@@ -22,8 +22,8 @@ final class TrainingAccessManager: ObservableObject {
     func startTrialIfNeeded() {
         kvs.synchronize()
 
-        if kvs.object(forKey: trialStartKey) as? Date == nil {
-            kvs.set(Date(), forKey: trialStartKey)
+        if kvs.object(forKey: trialA1StartKey) as? Date == nil {
+            kvs.set(Date(), forKey: trialA1StartKey)
             kvs.synchronize()
         }
 
@@ -35,14 +35,14 @@ final class TrainingAccessManager: ObservableObject {
         kvs.synchronize()
 
         // If already purchased, we simply grant access (we will add the purchase logic later).
-        if kvs.bool(forKey: unlockKey) == true {
+        if kvs.bool(forKey: unlockA1Key) == true {
             hasAccess = true
             isInTrial = false
             daysLeft = nil
             return
         }
 
-        guard let startDate = kvs.object(forKey: trialStartKey) as? Date else {
+        guard let startDate = kvs.object(forKey: trialA1StartKey) as? Date else {
             // The trial hasn't started yet — there's no access yet,
             // but as soon as the user clicks on ‘Training’,
             // we'll start the trial in startTrialIfNeeded()
@@ -70,7 +70,7 @@ final class TrainingAccessManager: ObservableObject {
 
     /// Unlock access
     func setUnlocked() {
-        kvs.set(true, forKey: unlockKey)
+        kvs.set(true, forKey: unlockA1Key)
         kvs.synchronize()
         refreshState()
     }

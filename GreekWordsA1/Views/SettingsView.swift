@@ -13,6 +13,7 @@ struct SettingsView: View {
 
     @State private var restoring = false
     @State private var restoreMessage: String?
+    @State private var showLevels = false
 
     private var cornerRadius: CGFloat {
         sizeClass == .regular ? 25 : 20
@@ -127,6 +128,28 @@ struct SettingsView: View {
                     }
                 }
 
+                // Other levels
+                Button {
+                    showLevels = true
+                } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: "graduationcap")
+                            .font(.body)
+                            .imageScale(.large)
+                            .foregroundColor(.primary)
+
+                        Text(Texts.otherLevels)
+                            .font(.body)
+                            .foregroundColor(.primary)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.vertical, 8)
+                }
+
                 // Rate the app
                 if shouldShowRateButton {
                     HStack(spacing: 14) {
@@ -166,6 +189,9 @@ struct SettingsView: View {
         .scrollContentBackground(.hidden)
         .onAppear {
             updateLanguage()
+        }
+        .navigationDestination(isPresented: $showLevels) {
+            LevelsView()
         }
     }
 

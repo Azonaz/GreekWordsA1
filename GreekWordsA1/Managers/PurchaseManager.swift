@@ -16,7 +16,7 @@ final class PurchaseManager: ObservableObject {
 
     func loadProducts() async {
         do {
-            let ids = ["training_access_unlock"]
+            let ids = ["access_training_a1_unlock"]
             let storeProducts = try await Product.products(for: ids)
             products = storeProducts
 

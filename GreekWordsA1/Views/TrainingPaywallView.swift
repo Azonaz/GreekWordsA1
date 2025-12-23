@@ -108,7 +108,7 @@ struct TrainingPaywallView: View {
             }
         }
         .onReceive(purchaseManager.$products) { products in
-            product = products.first(where: { $0.id == "training_access_unlock" })
+            product = products.first(where: { $0.id == "access_training_a1_unlock" })
         }
     }
 }
