@@ -25,7 +25,7 @@ struct ContentView: View {
     }
 
     private var topPadding: CGFloat {
-        sizeClass == .regular ? 40 : 20
+        sizeClass == .regular ? 30 : 15
     }
 
     private var cornerRadius: CGFloat {
@@ -55,7 +55,7 @@ struct ContentView: View {
                     Spacer()
 
                     if isHorizontalLayout {
-                        HStack(alignment: .center, spacing: 24) {
+                        HStack(alignment: .center, spacing: sizeClass == .regular ? 48 : 24) {
                             VStack(spacing: sizeClass == .regular ? 30 : 12) {
                                 NavigationLink(destination: GroupsListView()) {
                                     Text(Texts.quiz)
@@ -77,10 +77,16 @@ struct ContentView: View {
                             }
                             .frame(maxWidth: .infinity)
 
-                            VStack {
+                            VStack(spacing: sizeClass == .regular ? 30 : 12) {
                                 Spacer()
 
                                 trainingButton
+
+                                NavigationLink(destination: WordDayView()) {
+                                    Text(Texts.wordDay)
+                                        .foregroundColor(.primary)
+                                        .glassCard(height: buttonHeight, cornerRadius: cornerRadius)
+                                }
 
                                 Spacer()
                             }
@@ -114,6 +120,14 @@ struct ContentView: View {
                         trainingButton
                             .padding(.top, topPadding)
                             .padding(.horizontal, buttonPaddingHorizontal)
+
+                        NavigationLink(destination: WordDayView()) {
+                            Text(Texts.wordDay)
+                                .foregroundColor(.primary)
+                                .glassCard(height: buttonHeight, cornerRadius: cornerRadius)
+                        }
+                        .padding(.top, topPadding)
+                        .padding(.horizontal, buttonPaddingHorizontal)
                     }
 
                     Spacer()
