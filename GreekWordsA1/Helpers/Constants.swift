@@ -100,7 +100,7 @@ enum Texts {
     static var noPurchase: String {
         NSLocalizedString("noPurchase", comment: "")
     }
-    
+
     static var a1Level: String {
         NSLocalizedString("a1", comment: "")
     }

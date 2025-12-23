@@ -50,9 +50,9 @@ private struct GlassToggleBackground: View {
                 LinearGradient(
                     colors: isOn
                         ? [
-                            Color(red: 162/255, green: 24/255, blue: 29/255, opacity: 0.4),
-                            Color(red: 162/255, green: 24/255, blue: 29/255, opacity: 0.25),
-                            Color(white: 0.9, opacity: 0.3)
+                            Color.seaBlue.opacity(0.45),
+                            Color.seaBlue.opacity(0.30),
+                            Color.white.opacity(0.35)
                           ]
                         : [
                             Color(white: 0.25, opacity: 0.25),
@@ -73,7 +73,7 @@ private struct GlassToggleBackground: View {
             .frame(width: 54, height: 30)
             .shadow(
                 color: isOn
-                    ? Color(red: 162/255, green: 24/255, blue: 29/255, opacity: 0.45)
+                    ? Color.seaBlue.opacity(0.5)
                     : .black.opacity(0.3),
                 radius: isOn ? 6 : 3,
                 x: 0,

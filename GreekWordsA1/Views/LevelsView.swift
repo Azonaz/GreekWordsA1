@@ -140,9 +140,9 @@ struct LevelCard: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
                             .background(
-                                Capsule().fill(Color.white)
+                                Capsule().fill(Color.gray.opacity(0.2))
                             )
-                            .foregroundColor(.primary)
+                            .foregroundColor(.secondary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.8)
                     }
@@ -163,6 +163,6 @@ struct LevelCard: View {
             .fixedSize(horizontal: false, vertical: true)
         }
         .buttonStyle(.plain)
-        .disabled(isCurrent)
+        .allowsHitTesting(!isCurrent)
     }
 }
