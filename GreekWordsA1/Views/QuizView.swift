@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct QuizView: View {
-    let group: GroupMeta
+    let group: GroupMeta?
     let mode: QuizMode
     @Query var words: [Word]
     @Environment(\.dismiss) private var dismiss
@@ -37,11 +37,15 @@ struct QuizView: View {
         sizeClass == .regular ? 40 : 30
     }
 
-    init(group: GroupMeta, mode: QuizMode = .direct) {
+    init(group: GroupMeta? = nil, mode: QuizMode = .direct) {
         self.group = group
         self.mode = mode
-        let groupID = group.id
-        _words = Query(filter: #Predicate<Word> { $0.groupID == groupID })
+        if let group {
+            let groupID = group.id
+            _words = Query(filter: #Predicate<Word> { $0.groupID == groupID })
+        } else {
+            _words = Query()
+        }
     }
 
     var body: some View {
@@ -82,9 +86,15 @@ struct QuizView: View {
         .navigationTitle("")
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(isEnglish ? group.nameEn : group.nameRu)
-                    .font(sizeClass == .regular ? .largeTitle : .title2)
-                    .foregroundColor(.primary)
+                if let group {
+                    Text(isEnglish ? group.nameEn : group.nameRu)
+                        .font(sizeClass == .regular ? .largeTitle : .title2)
+                        .foregroundColor(.primary)
+                } else {
+                    Text(Texts.randomSelection)
+                        .font(sizeClass == .regular ? .largeTitle : .title2)
+                        .foregroundColor(.primary)
+                }
             }
         }
     }
@@ -166,6 +176,8 @@ private extension QuizView {
     }
 
     func markGroupAsOpened() {
+        guard let group else { return }
+
         if !group.opened {
             group.opened = true
             do {

@@ -41,6 +41,8 @@ enum Texts {
     static let reverseQuiz: LocalizedStringKey = "reverseQuiz"
     static let reverseQuizInfo: LocalizedStringKey = "reverseQuizInfo"
     static let reverseQuizHelp: LocalizedStringKey = "reverseQuizHelp"
+    static let randomQuiz: LocalizedStringKey = "randomQuiz"
+    static let randomSelection: LocalizedStringKey = "randomSelection"
     static let levels: LocalizedStringKey = "levels"
     static let here: LocalizedStringKey = "here"
     static let otherLevels: LocalizedStringKey = "otherLevels"

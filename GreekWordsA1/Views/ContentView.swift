@@ -54,6 +54,12 @@ struct ContentView: View {
                                         .glassCard(height: buttonHeight, cornerRadius: cornerRadius)
                                 }
 
+                                NavigationLink(destination: QuizView()) {
+                                    Text(Texts.randomQuiz)
+                                        .foregroundColor(.primary)
+                                        .glassCard(height: buttonHeight, cornerRadius: cornerRadius)
+                                }
+
                                 NavigationLink(destination: GroupsListView(mode: .reverse)) {
                                     Text(Texts.reverseQuiz)
                                         .foregroundColor(.primary)
@@ -78,6 +84,14 @@ struct ContentView: View {
                                 .foregroundColor(.primary)
                                 .glassCard(height: buttonHeight, cornerRadius: cornerRadius)
                         }
+                        .padding(.horizontal, buttonPaddingHorizontal)
+
+                        NavigationLink(destination: QuizView()) {
+                            Text(Texts.randomQuiz)
+                                .foregroundColor(.primary)
+                                .glassCard(height: buttonHeight, cornerRadius: cornerRadius)
+                        }
+                        .padding(.top, topPadding)
                         .padding(.horizontal, buttonPaddingHorizontal)
 
                         NavigationLink(destination: GroupsListView(mode: .reverse)) {

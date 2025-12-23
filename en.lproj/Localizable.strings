@@ -79,6 +79,8 @@ To open a group, complete at least one topic in the Quiz section.";
 "reverseQuiz" = "Reverse quiz";
 "reverseQuizInfo" = "Reverse Quiz Mode";
 "reverseQuizHelp" = "The Reverse Quiz follows the same rules as the regular mode, but in reverse: you are shown a word in your native language and choose its correct translation into Greek.";
+"randomQuiz" = "Random quiz";
+"randomSelection" = "Random selection";
 "levels" = "Levels";
 "otherLevels" = "Other levels";
 "a1" = "Current level";
