@@ -10,9 +10,14 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var goTraining = false
     @State private var goPaywall = false
+    @State private var isLandscapeDevice = UIScreen.main.bounds.width > UIScreen.main.bounds.height
 
     private var buttonHeight: CGFloat {
-        sizeClass == .regular ? 100 : 80
+        if isHorizontalLayout {
+            return sizeClass == .regular ? 100 : 65
+        }
+
+        return sizeClass == .regular ? 100 : 80
     }
 
     private var buttonPaddingHorizontal: CGFloat {
@@ -31,6 +36,10 @@ struct ContentView: View {
         sizeClass == .compact && verticalSizeClass == .compact
     }
 
+    private var isHorizontalLayout: Bool {
+        isLandscapePhone || (UIDevice.current.userInterfaceIdiom == .pad && isLandscapeDevice)
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -45,9 +54,9 @@ struct ContentView: View {
 
                     Spacer()
 
-                    if isLandscapePhone {
+                    if isHorizontalLayout {
                         HStack(alignment: .center, spacing: 24) {
-                            VStack(spacing: topPadding) {
+                            VStack(spacing: sizeClass == .regular ? 30 : 12) {
                                 NavigationLink(destination: GroupsListView()) {
                                     Text(Texts.quiz)
                                         .foregroundColor(.primary)
@@ -139,7 +148,7 @@ struct ContentView: View {
                     }
                     .foregroundColor(.primary)
                     .padding(.horizontal, buttonPaddingHorizontal)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, sizeClass == .regular ? 20 : 10)
                 }
             }
             .background(
@@ -163,6 +172,12 @@ struct ContentView: View {
             }
             .navigationDestination(isPresented: $goPaywall) {
                 TrainingPaywallView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+                let orientation = UIDevice.current.orientation
+                if orientation.isLandscape || orientation.isPortrait {
+                    isLandscapeDevice = orientation.isLandscape
+                }
             }
         }
     }
