@@ -1,0 +1,28 @@
+# === Xcode build artifacts ===
+DerivedData/
+build/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.xcuserdata/
+
+# === Xcode project files ===
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.hmap
+
+# === SwiftPM ===
+.build/
+Package.resolved
+# Uncomment if you add local SPM dependencies
+# .swiftpm/
+
+# === Playground files ===
+timeline.xctimeline
+playground.xcworkspace
+
+# === API secrets ===
+GreekWordsB1/Helpers/Constants.swift
