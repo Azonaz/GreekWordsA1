@@ -123,7 +123,7 @@ struct StatisticsView: View {
                         }
                     }
                     .padding(.horizontal, horizontalPadding)
-                    
+
                     Text(Texts.wordDay)
                         .font(.title)
                         .fontWeight(.bold)
