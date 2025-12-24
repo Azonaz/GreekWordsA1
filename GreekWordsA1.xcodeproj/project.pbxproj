@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		840FBAF82ECDF9690050BCBB /* FSRS in Frameworks */ = {isa = PBXBuildFile; productRef = 840FBAF72ECDF9690050BCBB /* FSRS */; };
 		847EF0162EB2660700B068B2 /* Localizable.strings in Sources */ = {isa = PBXBuildFile; fileRef = 847EF0152EB2660700B068B2 /* Localizable.strings */; };
+		84ECD28E2EFC260F009B629E /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 84ECD28C2EFC260F009B629E /* Localizable.stringsdict */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,8 @@
 /* Begin PBXFileReference section */
 		847EF0142EB2660700B068B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		847EF0172EB2660900B068B2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84ECD28D2EFC260F009B629E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		84ECD28F2EFC2615009B629E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		84F3501F2EAF7CEA00E9C8C9 /* GreekWordsA1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreekWordsA1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84F3502E2EAF7CEC00E9C8C9 /* GreekWordsA1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreekWordsA1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84F350382EAF7CEC00E9C8C9 /* GreekWordsA1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreekWordsA1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				847EF0152EB2660700B068B2 /* Localizable.strings */,
+				84ECD28C2EFC260F009B629E /* Localizable.stringsdict */,
 				84F350212EAF7CEA00E9C8C9 /* GreekWordsA1 */,
 				84F350312EAF7CEC00E9C8C9 /* GreekWordsA1Tests */,
 				84F350202EAF7CEA00E9C8C9 /* Products */,
@@ -218,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84ECD28E2EFC260F009B629E /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +309,15 @@
 				847EF0172EB2660900B068B2 /* ru */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		84ECD28C2EFC260F009B629E /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84ECD28D2EFC260F009B629E /* en */,
+				84ECD28F2EFC2615009B629E /* ru */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

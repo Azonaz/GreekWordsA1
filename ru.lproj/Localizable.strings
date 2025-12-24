@@ -98,3 +98,6 @@
 "b1" = "Готовы расширить словарный запас?";
 "here" = "Вы здесь";
 "wordDay" = "Слово дня";
+"freeTrialActive" = "Free trial active";
+"unlocked" = "Доступ открыт";
+"locked" = "Доступ закрыт";

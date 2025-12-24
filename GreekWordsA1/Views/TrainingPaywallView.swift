@@ -22,6 +22,23 @@ struct TrainingPaywallView: View {
     private var horizontalPadding: CGFloat {
         sizeClass == .regular ? 100 : 60
     }
+    
+    private var titleText: String {
+        if trainingAccess.isInTrial {
+            return Texts.freeTrialActive
+        } else {
+            return Texts.accessExpired
+        }
+    }
+
+    private var subtitleText: String {
+        if trainingAccess.isInTrial {
+            let days = trainingAccess.daysLeft ?? 0
+            return Texts.trialStatusText(daysLeft: days)
+        } else {
+            return Texts.unlockAccess
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -29,7 +46,7 @@ struct TrainingPaywallView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 40) {
-                Text(Texts.accessExpired)
+                Text(titleText)
                     .font(sizeClass == .regular ? .largeTitle : .title)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
@@ -37,7 +54,7 @@ struct TrainingPaywallView: View {
                     .padding(.horizontal, 32)
                     .padding(.top, 32)
 
-                Text(Texts.unlockAccess)
+                Text(subtitleText)
                     .font(sizeClass == .regular ? .headline : .subheadline)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
