@@ -144,6 +144,7 @@ final class WordDayModel: ObservableObject {
     func checkAnswer() {
         guard isOKEnabled, let word else { return }
         isChecking = true
+        showHelp = false
 
         let attempt = slots.compactMap { $0 }.joined()
         let isCorrect = attempt == word.gr
@@ -151,7 +152,7 @@ final class WordDayModel: ObservableObject {
 
         if isCorrect {
             Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 1_200_000_000)
+                try? await Task.sleep(nanoseconds: 1_300_000_000)
                 service.markSolved(word)
                 isSolved = true
                 result = nil
@@ -159,7 +160,7 @@ final class WordDayModel: ObservableObject {
             }
         } else {
             Task { @MainActor in
-                try? await Task.sleep(nanoseconds: 800_000_000)
+                try? await Task.sleep(nanoseconds: 1_300_000_000)
                 resetInput()
                 result = nil
                 isChecking = false

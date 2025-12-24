@@ -43,7 +43,6 @@ enum Texts {
     static let randomSelection: LocalizedStringKey = "randomSelection"
     static let wordDayCorrect: LocalizedStringKey = "wordDayCorrect"
     static let wordDayWrong: LocalizedStringKey = "wordDayWrong"
-    static let wordDayTranslation: LocalizedStringKey = "wordDayTranslation"
     static let wordDayError: LocalizedStringKey = "wordDayError"
     static let retry: LocalizedStringKey = "retry"
     static let levels: LocalizedStringKey = "levels"
@@ -135,7 +134,7 @@ enum Texts {
     static var wordDayOK: String {
         NSLocalizedString("wordDayOK", comment: "")
     }
-    
+
     static var accessExpired: String {
         NSLocalizedString("accessExpired", comment: "")
     }

@@ -22,7 +22,7 @@ struct TrainingPaywallView: View {
     private var horizontalPadding: CGFloat {
         sizeClass == .regular ? 100 : 60
     }
-    
+
     private var titleText: String {
         if trainingAccess.isInTrial {
             return Texts.freeTrialActive

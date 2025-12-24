@@ -88,7 +88,6 @@ To open a group, complete at least one topic in the Quiz section.";
 "wordDayOK" = "OK";
 "wordDayCorrect" = "Correct!";
 "wordDayWrong" = "Try again";
-"wordDayTranslation" = "Translation:";
 "wordDayError" = "Couldn't load Word of the day.";
 "retry" = "Retry";
 "levels" = "Levels";

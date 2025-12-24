@@ -88,7 +88,6 @@
 "wordDayOK" = "ОК";
 "wordDayCorrect" = "Верно!";
 "wordDayWrong" = "Попробуйте ещё раз";
-"wordDayTranslation" = "Перевод:";
 "wordDayError" = "Не удалось загрузить слово дня.";
 "retry" = "Повторить";
 "levels" = "Уровни";

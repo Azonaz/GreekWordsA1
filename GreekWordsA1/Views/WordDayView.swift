@@ -7,6 +7,10 @@ struct WordDayView: View {
     private var cornerRadius: CGFloat { sizeClass == .regular ? 20 : 16 }
     private var rowSpacing: CGFloat { sizeClass == .regular ? 15 : 8 }
     private var horizontalPadding: CGFloat { sizeClass == .regular ? 40 : 20 }
+    private var landscapeItemWidth: CGFloat { sizeClass == .regular ? 60 : 50 }
+    private var controlSpacing: CGFloat { sizeClass == .regular ? 40 : 24 }
+    private var controlButtonWidth: CGFloat { sizeClass == .regular ? 170 : 130 }
+    private var controlButtonHeight: CGFloat { sizeClass == .regular ? 70 : 50 }
 
     var body: some View {
         ZStack {
@@ -15,8 +19,9 @@ struct WordDayView: View {
 
             GeometryReader { geo in
                 let availableWidth = max(geo.size.width - horizontalPadding * 2, 0)
+                let isLandscape = geo.size.width > geo.size.height
 
-                content(availableWidth: availableWidth)
+                content(availableWidth: availableWidth, isLandscape: isLandscape)
                     .padding(.horizontal, horizontalPadding)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
@@ -35,7 +40,7 @@ struct WordDayView: View {
     }
 
     @ViewBuilder
-    private func content(availableWidth: CGFloat) -> some View {
+    private func content(availableWidth: CGFloat, isLandscape: Bool) -> some View {
         if model.isLoading {
             ProgressView()
         } else if let errorMessage = model.errorMessage {
@@ -43,7 +48,7 @@ struct WordDayView: View {
         } else if model.isSolved, let word = model.word {
             solvedView(word)
         } else if let word = model.word {
-            gameView(word, availableWidth: availableWidth)
+            gameView(word, availableWidth: availableWidth, isLandscape: isLandscape)
         } else {
             ProgressView()
         }
@@ -69,29 +74,37 @@ private extension WordDayView {
         .glassWordDisplay(height: sizeClass == .regular ? 150 : 130, cornerRadius: 24)
     }
 
-    func gameView(_ word: WordDayEntry, availableWidth: CGFloat) -> some View {
-        let itemWidth = elementWidth(totalWidth: availableWidth, count: model.slots.count)
+    func gameView(_ word: WordDayEntry, availableWidth: CGFloat, isLandscape: Bool) -> some View {
+        let calculatedWidth = elementWidth(totalWidth: availableWidth, count: model.slots.count)
+        let itemWidth = isLandscape ? landscapeItemWidth : min(calculatedWidth, landscapeItemWidth)
+        let isPhoneLandscape = isLandscape && sizeClass != .regular
 
         return VStack(spacing: sizeClass == .regular ? 50 : 30) {
-            slotsView(itemWidth: itemWidth)
+            slotsView(itemWidth: itemWidth, isLandscape: isLandscape)
 
             if model.showHelp {
                 translationView(word.en)
             }
 
-            controlRow
+            if isPhoneLandscape == false {
+                controlRow
+            }
 
-            lettersRow(itemWidth: itemWidth)
+            lettersRow(itemWidth: itemWidth, isLandscape: isLandscape)
 
             if let result = model.result {
                 resultView(result)
             }
 
-            okButton
+            if isPhoneLandscape {
+                phoneLandscapeControlRow
+            } else {
+                okButton
+            }
         }
     }
 
-    func slotsView(itemWidth: CGFloat) -> some View {
+    func slotsView(itemWidth: CGFloat, isLandscape: Bool) -> some View {
         HStack(spacing: rowSpacing) {
             ForEach(model.slots.indices, id: \.self) { index in
                 let letter = model.slots[index] ?? ""
@@ -100,7 +113,7 @@ private extension WordDayView {
                     .font(.title2.weight(.medium))
                     .foregroundColor(.primary)
                     .frame(width: itemWidth, height: itemWidth)
-                    .glassLabel(height: itemWidth, cornerRadius: cornerRadius)
+                    .glassLabel(height: itemWidth, cornerRadius: sizeClass == .regular ? 16 : 8, expand: !isLandscape)
                     .overlay(
                         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                             .stroke(strokeColor, lineWidth: 2)
@@ -111,42 +124,38 @@ private extension WordDayView {
     }
 
     func translationView(_ translation: String) -> some View {
-        HStack(spacing: 8) {
-            Text(Texts.wordDayTranslation)
-                .fontWeight(.semibold)
-            Text(translation)
-                .foregroundColor(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(.horizontal, 12)
-        .glassWordDisplay(height: sizeClass == .regular ? 70 : 60, cornerRadius: cornerRadius)
+        Text(translation)
+            .foregroundColor(.primary)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.horizontal, 12)
     }
 
     var controlRow: some View {
-        HStack(spacing: sizeClass == .regular ? 20 : 30) {
+        HStack(spacing: controlSpacing) {
             Button {
                 model.toggleHelp()
             } label: {
                 Text(Texts.wordDayHelp)
                     .foregroundColor(.primary)
-                    .glassCard(height: 50, cornerRadius: cornerRadius)
+                    .frame(width: controlButtonWidth)
+                    .glassCard(height: controlButtonHeight, cornerRadius: cornerRadius, expand: false)
             }
-
-            Spacer()
 
             Button {
                 model.deleteLastLetter()
             } label: {
                 Text(Texts.wordDayDelete)
                     .foregroundColor(.primary)
-                    .glassCard(height: 50, cornerRadius: cornerRadius)
+                    .frame(width: controlButtonWidth)
+                    .glassCard(height: controlButtonHeight, cornerRadius: cornerRadius, expand: false)
             }
             .disabled(model.slots.allSatisfy { $0 == nil })
             .opacity(model.slots.allSatisfy { $0 == nil } ? 0.5 : 1)
         }
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 
-    func lettersRow(itemWidth: CGFloat) -> some View {
+    func lettersRow(itemWidth: CGFloat, isLandscape: Bool) -> some View {
         HStack(spacing: rowSpacing) {
             ForEach(model.letters) { letter in
                 Button {
@@ -156,7 +165,8 @@ private extension WordDayView {
                         .font(.title3)
                         .foregroundColor(.primary)
                         .frame(width: itemWidth, height: itemWidth)
-                        .glassCard(height: itemWidth, cornerRadius: cornerRadius)
+                        .glassCard(height: itemWidth, cornerRadius: sizeClass == .regular ? 16 : 8,
+                                   expand: !isLandscape)
                         .overlay(
                             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                                 .stroke(strokeColor, lineWidth: 2)
@@ -180,18 +190,54 @@ private extension WordDayView {
 
     var okButton: some View {
         HStack {
-            Spacer()
+            Button {
+                model.checkAnswer()
+            } label: {
+                Text(Texts.wordDayOK)
+                    .foregroundColor(.primary)
+                    .frame(width: controlButtonWidth)
+                    .glassCard(height: controlButtonHeight, cornerRadius: cornerRadius, expand: false)
+            }
+            .disabled(!model.isOKEnabled)
+            .opacity(model.isOKEnabled ? 1 : 0.5)
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    var phoneLandscapeControlRow: some View {
+        HStack(spacing: controlSpacing) {
+            Button {
+                model.toggleHelp()
+            } label: {
+                Text(Texts.wordDayHelp)
+                    .foregroundColor(.primary)
+                    .frame(width: controlButtonWidth)
+                    .glassCard(height: controlButtonHeight, cornerRadius: cornerRadius, expand: false)
+            }
+
+            Button {
+                model.deleteLastLetter()
+            } label: {
+                Text(Texts.wordDayDelete)
+                    .foregroundColor(.primary)
+                    .frame(width: controlButtonWidth)
+                    .glassCard(height: controlButtonHeight, cornerRadius: cornerRadius, expand: false)
+            }
+            .disabled(model.slots.allSatisfy { $0 == nil })
+            .opacity(model.slots.allSatisfy { $0 == nil } ? 0.5 : 1)
 
             Button {
                 model.checkAnswer()
             } label: {
                 Text(Texts.wordDayOK)
                     .foregroundColor(.primary)
-                    .glassCard(height: 52, cornerRadius: cornerRadius)
+                    .frame(width: controlButtonWidth)
+                    .glassCard(height: controlButtonHeight, cornerRadius: cornerRadius, expand: false)
             }
             .disabled(!model.isOKEnabled)
             .opacity(model.isOKEnabled ? 1 : 0.5)
         }
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     func errorView(message: String) -> some View {

@@ -3,6 +3,7 @@ import SwiftUI
 struct GlassLabel: ViewModifier {
     var height: CGFloat
     var cornerRadius: CGFloat
+    var expand: Bool = true
 
     func body(content: Content) -> some View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
@@ -10,7 +11,7 @@ struct GlassLabel: ViewModifier {
         content
             .multilineTextAlignment(.center)
             .frame(height: height)
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: expand ? .infinity : nil)
             .foregroundStyle(.primary)
             .background(.ultraThinMaterial, in: shape)
             .overlay(
@@ -32,7 +33,7 @@ struct GlassLabel: ViewModifier {
 }
 
 extension View {
-    func glassLabel(height: CGFloat, cornerRadius: CGFloat) -> some View {
-        modifier(GlassLabel(height: height, cornerRadius: cornerRadius))
+    func glassLabel(height: CGFloat, cornerRadius: CGFloat, expand: Bool = true) -> some View {
+        modifier(GlassLabel(height: height, cornerRadius: cornerRadius, expand: expand))
     }
 }
