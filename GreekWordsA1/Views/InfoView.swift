@@ -46,6 +46,19 @@ struct InfoView: View {
                         .multilineTextAlignment(.leading)
                         .padding(.vertical, 4)
                 }
+
+                Section(header:
+                    Text(Texts.wordDay)
+                        .font(sizeClass == .regular ? .title2 : .headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                        .padding(.bottom, 4)
+                ) {
+                    Text(Texts.wordDayHelpInfo)
+                        .font(.body)
+                        .multilineTextAlignment(.leading)
+                        .padding(.vertical, 4)
+                }
             }
             .listStyle(.insetGrouped)
         }

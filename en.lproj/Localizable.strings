@@ -102,3 +102,5 @@ To open a group, complete at least one topic in the Quiz section.";
 "freeTrialActive" = "Free trial active";
 "unlocked" = "Unlocked";
 "locked" = "Locked";
+"wordDayHelpInfo" = "In the “Word of the Day” section, the letters are scrambled, and your task is to arrange them to form the hidden Greek word.
+A hint is available to help you.";

@@ -50,6 +50,7 @@ enum Texts {
     static let otherLevels: LocalizedStringKey = "otherLevels"
     static let unlocked: LocalizedStringKey = "unlocked"
     static let locked: LocalizedStringKey = "locked"
+    static let wordDayHelpInfo: LocalizedStringKey = "wordDayHelpInfo"
 
     static var allWords: String {
         NSLocalizedString("allWords", comment: "")
