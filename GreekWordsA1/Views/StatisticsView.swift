@@ -8,6 +8,7 @@ struct StatisticsView: View {
     @Query private var groups: [GroupMeta]
     @EnvironmentObject var trainingAccess: TrainingAccessManager
     @Environment(\.horizontalSizeClass) var sizeClass
+    private let wordDayService = WordDayService()
 
     private var cardHeight: CGFloat {
         sizeClass == .regular ? 90 : 70
@@ -35,6 +36,7 @@ struct StatisticsView: View {
     private var weakWordsCount: Int { weakWords.count }
     private var staleWords: [WordProgress] { StatsService.staleWords(progress, weak: weakWords) }
     private var staleWordsCount: Int { staleWords.count }
+    private var wordDayStats: WordDayStats { wordDayService.wordDayStats() }
 
     var body: some View {
         ZStack {
@@ -119,6 +121,17 @@ struct StatisticsView: View {
                         } else {
                             StatCard(title: Texts.staleWords, value: "0")
                         }
+                    }
+                    .padding(.horizontal, horizontalPadding)
+                    
+                    Text(Texts.wordDay)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.horizontal)
+
+                    VStack(spacing: 16) {
+                        StatCard(title: Texts.wordDaySolvedTotal, value: "\(wordDayStats.totalSolved)")
+                        StatCard(title: Texts.wordDayStreak, value: "\(wordDayStats.currentStreak)")
                     }
                     .padding(.horizontal, horizontalPadding)
                 }

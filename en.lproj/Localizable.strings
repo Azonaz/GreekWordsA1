@@ -90,6 +90,8 @@ To open a group, complete at least one topic in the Quiz section.";
 "wordDayWrong" = "Try again";
 "wordDayError" = "Couldn't load Word of the day.";
 "retry" = "Retry";
+"wordDaySolvedTotal" = "Word of the day solved";
+"wordDayStreak" = "Streak (days in a row)";
 "levels" = "Levels";
 "otherLevels" = "Other levels";
 "a1" = "Current level";

@@ -5,6 +5,7 @@ final class WordDayService {
     private let defaults = UserDefaults.standard
     private let cacheKey = "wordDayCache"
     private let solvedKey = "wordDaySolved"
+    private let historyKey = "wordDaySolvedHistory"
 
     func loadWordOfDay() async throws -> WordDayState {
         let words = try await fetchWords()
@@ -24,6 +25,15 @@ final class WordDayService {
         if let data = try? JSONEncoder().encode(record) {
             defaults.set(data, forKey: solvedKey)
         }
+        save(record)
+    }
+
+    func wordDayStats() -> WordDayStats {
+        let history = solvedHistory()
+        return WordDayStats(
+            totalSolved: history.count,
+            currentStreak: currentStreak(from: history)
+        )
     }
 }
 
@@ -61,16 +71,80 @@ private extension WordDayService {
     }
 
     func solvedWordForToday() -> WordDayEntry? {
-        guard let data = defaults.data(forKey: solvedKey),
-              let record = try? JSONDecoder().decode(SolvedRecord.self, from: data) else { return nil }
+        let today = Date()
 
-        return Calendar.current.isDate(record.date, inSameDayAs: Date()) ? record.word : nil
+        if let record = solvedHistory().last(where: { Calendar.current.isDate($0.date, inSameDayAs: today) }) {
+            return record.word
+        }
+
+        // fallback to legacy storage
+        if let data = defaults.data(forKey: solvedKey),
+           let record = try? JSONDecoder().decode(SolvedRecord.self, from: data),
+           Calendar.current.isDate(record.date, inSameDayAs: today) {
+            return record.word
+        }
+
+        return nil
+    }
+
+    func solvedHistory() -> [SolvedRecord] {
+        if let data = defaults.data(forKey: historyKey),
+           let records = try? JSONDecoder().decode([SolvedRecord].self, from: data) {
+            return records
+        }
+
+        // migrate legacy single record
+        if let data = defaults.data(forKey: solvedKey),
+           let record = try? JSONDecoder().decode(SolvedRecord.self, from: data) {
+            return [record]
+        }
+
+        return []
+    }
+
+    func save(_ record: SolvedRecord) {
+        var history = solvedHistory()
+        history.removeAll { Calendar.current.isDate($0.date, inSameDayAs: record.date) }
+        history.append(record)
+        history.sort { $0.date < $1.date }
+
+        if let data = try? JSONEncoder().encode(history) {
+            defaults.set(data, forKey: historyKey)
+        }
+    }
+
+    func currentStreak(from history: [SolvedRecord]) -> Int {
+        let calendar = Calendar.current
+        let dates = Array(Set(history.map { calendar.startOfDay(for: $0.date) })).sorted()
+        guard let lastDate = dates.last else { return 0 }
+
+        var streak = 1
+        var previousDate = lastDate
+
+        for date in dates.reversed().dropFirst() {
+            guard let expected = calendar.date(byAdding: .day, value: -1, to: previousDate) else { break }
+            if calendar.isDate(date, inSameDayAs: expected) {
+                streak += 1
+                previousDate = date
+            } else {
+                break
+            }
+        }
+
+        return streak
     }
 }
 
 private struct SolvedRecord: Codable {
     let date: Date
     let word: WordDayEntry
+}
+
+struct WordDayStats {
+    let totalSolved: Int
+    let currentStreak: Int
+
+    static let zero = WordDayStats(totalSolved: 0, currentStreak: 0)
 }
 
 enum WordDayError: LocalizedError {

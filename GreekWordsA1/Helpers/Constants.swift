@@ -135,6 +135,14 @@ enum Texts {
         NSLocalizedString("wordDayOK", comment: "")
     }
 
+    static var wordDaySolvedTotal: String {
+        NSLocalizedString("wordDaySolvedTotal", comment: "")
+    }
+
+    static var wordDayStreak: String {
+        NSLocalizedString("wordDayStreak", comment: "")
+    }
+
     static var accessExpired: String {
         NSLocalizedString("accessExpired", comment: "")
     }
