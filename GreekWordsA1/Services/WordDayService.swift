@@ -118,6 +118,14 @@ private extension WordDayService {
         let dates = Array(Set(history.map { calendar.startOfDay(for: $0.date) })).sorted()
         guard let lastDate = dates.last else { return 0 }
 
+        let today = calendar.startOfDay(for: Date())
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)
+        if !calendar.isDate(lastDate, inSameDayAs: today),
+           let yesterday,
+           !calendar.isDate(lastDate, inSameDayAs: yesterday) {
+            return 0
+        }
+
         var streak = 1
         var previousDate = lastDate
 

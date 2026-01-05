@@ -68,6 +68,14 @@ final class TrainingAccessManager: ObservableObject {
         }
     }
 
+    /// Reset all trial-related data back to the initial state.
+    /// Does not affect the unlocked purchase flag.
+    func resetTrialData() {
+        kvs.removeObject(forKey: trialA1StartKey)
+        kvs.synchronize()
+        refreshState()
+    }
+
     /// Unlock access
     func setUnlocked() {
         kvs.set(true, forKey: unlockA1Key)
