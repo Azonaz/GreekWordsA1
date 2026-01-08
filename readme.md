@@ -23,3 +23,8 @@ The app is designed to support beginners during their first year of studying Gre
 - System font: SF Pro
 
 **Stack:** SwiftUI, SwiftData, StoreKit, FSRS, swiftlint.
+
+## ⚖️ License
+
+This project is source-available.  
+See the [LICENSE](LICENSE) file for details.
