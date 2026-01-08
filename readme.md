@@ -2,7 +2,7 @@
 
 A simple app for iPhone helps people to memorize the main words during their first year study of Greek language.
 
-Works in both portrait and landscape modes. Made with vanilla Swift and the native SDK..
+Works in both portrait and landscape modes. Made with vanilla Swift and the native SDK.
 
 # Screencast
 
