@@ -2,11 +2,12 @@
 
 A simple app for iPhone helps people to memorize the main words during their first year study of Greek language.
 
-Works only in portrait mode. Made with vanilla swift and native SDK.
+Works in both portrait and landscape modes. Made with vanilla Swift and the native SDK..
 
 # Screencast
 
-![greekw](https://github.com/Azonaz/GreekWords/assets/125258194/68827faf-3260-4698-8172-41f4f1dd7ba8)
+<img width="850" height="368" alt="1" src="https://github.com/user-attachments/assets/95eb5662-cb3a-457c-9cd2-f1f4b17d40ab" />
+<img width="850" height="368" alt="2" src="https://github.com/user-attachments/assets/e7c9b16a-d3a9-4aad-8018-c9e50896e2ed" />
 
 
 # Requirements
