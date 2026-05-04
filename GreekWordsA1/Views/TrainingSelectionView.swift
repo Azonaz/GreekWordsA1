@@ -4,6 +4,7 @@ import SwiftData
 
 struct TrainingSelectionView: View {
     @Environment(\.modelContext) private var context
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) var hSizeClass
     @Environment(\.verticalSizeClass) var vSizeClass
 
@@ -14,8 +15,6 @@ struct TrainingSelectionView: View {
     @State private var currentIndex: Int = 0
     @State private var showTranslation = false
     @State private var finished = false
-    @State private var isEnglish: Bool = Locale.preferredLanguages.first?.hasPrefix("en") == true
-
     private var currentWord: Word? {
         weakWords[safe: currentIndex]
     }
@@ -161,7 +160,7 @@ struct TrainingSelectionView: View {
     @ViewBuilder
     private func translationView(for word: Word) -> some View {
         if showTranslation {
-            Text(isEnglish ? word.en : word.ru)
+            Text(word.localizedTranslation(for: locale))
                 .font(.largeTitle)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)

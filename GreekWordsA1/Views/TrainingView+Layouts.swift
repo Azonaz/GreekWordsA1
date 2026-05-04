@@ -112,7 +112,7 @@ private extension TrainingView {
     @ViewBuilder
     func translationView(for word: Word) -> some View {
         if showTranslation {
-            Text(isEnglish ? word.en : word.ru)
+            Text(word.localizedTranslation(for: locale))
                 .font(.largeTitle)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)

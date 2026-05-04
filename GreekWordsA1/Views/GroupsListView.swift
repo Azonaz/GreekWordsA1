@@ -6,6 +6,7 @@ struct GroupsListView: View {
     @Query(sort: [SortDescriptor(\GroupMeta.id, order: .forward)]) private var groups: [GroupMeta]
     @Query private var words: [Word]
     @Query private var progresses: [WordProgress]
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) var sizeClass
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
@@ -20,10 +21,6 @@ struct GroupsListView: View {
 
     private var paddingHorizontal: CGFloat {
         sizeClass == .regular ? 48 : 24
-    }
-
-    private var isEnglish: Bool {
-        Locale.preferredLanguages.first?.hasPrefix("en") == true
     }
 
     init(mode: QuizMode = .direct) {
@@ -46,7 +43,7 @@ struct GroupsListView: View {
                             let counterText = "\(counts.seen)/\(counts.total)"
 
                             HStack(alignment: .center) {
-                                Text(isEnglish ? group.nameEn : group.nameRu)
+                                Text(group.localizedName(for: locale))
                                     .font(sizeClass == .regular ? .title2 : .title3)
                                     .foregroundColor(.primary)
                                     .multilineTextAlignment(.leading)

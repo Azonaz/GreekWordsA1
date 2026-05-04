@@ -2,7 +2,7 @@ import SwiftUI
 import StoreKit
 
 struct SettingsView: View {
-    @State private var currentLanguage = Locale.current.language.languageCode?.identifier ?? "en"
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) var sizeClass
     @AppStorage("isBlurEnabled") private var isBlurEnabled = false
     @AppStorage("dailyNewWordsLimit") private var dailyNewWordsLimit: Int = 20
@@ -26,6 +26,10 @@ struct SettingsView: View {
 
     private var isTrainingPurchased: Bool {
         trainingAccess.hasAccess && !trainingAccess.isInTrial
+    }
+
+    private var currentLanguage: String {
+        AppLanguage.code(for: locale)
     }
 
     var body: some View {
@@ -228,9 +232,6 @@ struct SettingsView: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .onAppear {
-            updateLanguage()
-        }
         .navigationDestination(isPresented: $showLevels) {
             LevelsView()
         }
@@ -259,10 +260,6 @@ struct SettingsView: View {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
-    }
-
-    private func updateLanguage() {
-        currentLanguage = Locale.current.language.languageCode?.identifier ?? "en"
     }
 
     private func displayName(for code: String) -> String {

@@ -5,6 +5,7 @@ struct QuizView: View {
     let group: GroupMeta?
     let mode: QuizMode
     @Query var words: [Word]
+    @Environment(\.locale) private var locale
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Environment(\.horizontalSizeClass) var sizeClass
@@ -17,7 +18,6 @@ struct QuizView: View {
     @State private var isCorrect: Bool?
     @State private var correctCount = 0
     @State private var showResult = false
-    @State private var isEnglish: Bool = Locale.preferredLanguages.first?.hasPrefix("en") == true
     @AppStorage("isBlurEnabled") private var isBlurEnabled = false
     @State private var answersBlurred = false
     @State private var haptic = UISelectionFeedbackGenerator()
@@ -87,7 +87,7 @@ struct QuizView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 if let group {
-                    Text(isEnglish ? group.nameEn : group.nameRu)
+                    Text(group.localizedName(for: locale))
                         .font(sizeClass == .regular ? .largeTitle : .title2)
                         .foregroundColor(.primary)
                 } else {
@@ -318,14 +318,14 @@ private extension QuizView {
         case .direct:
             return word.gr
         case .reverse:
-            return isEnglish ? word.en : word.ru
+            return word.localizedTranslation(for: locale)
         }
     }
 
     func optionText(for word: Word) -> String {
         switch mode {
         case .direct:
-            return isEnglish ? word.en : word.ru
+            return word.localizedTranslation(for: locale)
         case .reverse:
             return word.gr
         }

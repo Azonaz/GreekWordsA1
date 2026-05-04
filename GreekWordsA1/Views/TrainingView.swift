@@ -4,10 +4,10 @@ import FSRS
 
 struct TrainingView: View {
     @Environment(\.modelContext) var context
+    @Environment(\.locale) var locale
     @Environment(\.horizontalSizeClass) var sizeClass
     @Environment(\.verticalSizeClass) var vSizeClass
 
-    @State var isEnglish: Bool = Locale.preferredLanguages.first?.hasPrefix("en") == true
     @State var dueWords: [Word] = []
     @State var currentIndex = 0
     @State var showTranslation = false
