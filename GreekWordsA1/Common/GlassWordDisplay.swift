@@ -3,6 +3,7 @@ import SwiftUI
 struct GlassWordDisplay: ViewModifier {
     var height: CGFloat
     var cornerRadius: CGFloat
+    var allowsHitTesting: Bool
     @State private var shimmerPhase: CGFloat = 0
 
     func body(content: Content) -> some View {
@@ -55,12 +56,19 @@ struct GlassWordDisplay: ViewModifier {
                 )
             )
             .shadow(color: .black.opacity(0.08), radius: 6)
-            .allowsHitTesting(false)
+            .allowsHitTesting(allowsHitTesting)
     }
 }
 
 extension View {
-    func glassWordDisplay(height: CGFloat, cornerRadius: CGFloat) -> some View {
-        modifier(GlassWordDisplay(height: height, cornerRadius: cornerRadius))
+    func glassWordDisplay(height: CGFloat, cornerRadius: CGFloat,
+                          allowsHitTesting: Bool = false) -> some View {
+        modifier(
+            GlassWordDisplay(
+                height: height,
+                cornerRadius: cornerRadius,
+                allowsHitTesting: allowsHitTesting
+            )
+        )
     }
 }

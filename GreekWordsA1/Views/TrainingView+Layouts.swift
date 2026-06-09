@@ -98,15 +98,37 @@ private extension TrainingView {
 
     func wordCard(_ word: Word, height: CGFloat) -> some View {
         let isSingleWord = !word.gr.contains(" ")
+        let audioIndicatorHeight: CGFloat = 22
+        let wordAreaHeight = height - audioIndicatorHeight
 
-        return Text(word.gr)
-            .font(.largeTitle.bold())
-            .multilineTextAlignment(.center)
-            .lineLimit(isSingleWord ? 1 : nil)
-            .minimumScaleFactor(isSingleWord ? 0.4 : 0.7)
-            .padding()
-            .glassWordDisplay(height: height, cornerRadius: cornerRadius)
-            .padding(.horizontal, 16)
+        return VStack(spacing: 0) {
+            Text(word.gr)
+                .font(.largeTitle.bold())
+                .foregroundColor(.primary)
+                .multilineTextAlignment(.center)
+                .lineLimit(isSingleWord ? 1 : nil)
+                .minimumScaleFactor(isSingleWord ? 0.4 : 0.7)
+                .padding(.horizontal, 16)
+                .frame(maxWidth: .infinity)
+                .frame(height: wordAreaHeight)
+
+            ZStack(alignment: .top) {
+                Image(systemName: "speaker.wave.2")
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .opacity(0.65)
+                    .offset(y: -5)
+            }
+            .frame(height: audioIndicatorHeight)
+        }
+        .frame(height: height)
+        .glassWordDisplay(height: height, cornerRadius: cornerRadius, allowsHitTesting: true)
+        .contentShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        .onTapGesture {
+            speechService.speak(word.gr)
+        }
+        .accessibilityAddTraits(.isButton)
+        .padding(.horizontal, 16)
     }
 
     @ViewBuilder

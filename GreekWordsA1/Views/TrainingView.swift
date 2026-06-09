@@ -17,6 +17,7 @@ struct TrainingView: View {
     @State var todayReview = 0
     @State var todayLearning = 0
     @State var wordStates: [String: ReviewState] = [:]
+    @StateObject var speechService = GreekSpeechService()
 
     @AppStorage("trainingCount") var trainingCount = 0
     @AppStorage("shouldShowRateButton") var shouldShowRateButton = false
@@ -75,6 +76,9 @@ struct TrainingView: View {
         }
         .task {
             await loadDueWords()
+        }
+        .onDisappear {
+            speechService.stop()
         }
         .navigationTitle("")
         .toolbar {
