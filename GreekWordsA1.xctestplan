@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "C2E42191-2B2F-4BD5-91FC-5F7F741E2F0D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:GreekWordsA1.xcodeproj",
+        "identifier" : "84F3502D2EAF7CEC00E9C8C9",
+        "name" : "GreekWordsA1Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

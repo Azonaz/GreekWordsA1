@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var goTraining = false
     @State private var goPaywall = false
     @State private var isLandscapeDevice = UIScreen.main.bounds.width > UIScreen.main.bounds.height
+    @State private var isSyncingVocabulary = false
 
     private var buttonHeight: CGFloat {
         if isHorizontalLayout {
@@ -197,9 +198,14 @@ struct ContentView: View {
     }
 
     func syncVocabulary() async {
+        guard !isSyncingVocabulary else { return }
+
+        isSyncingVocabulary = true
+        defer { isSyncingVocabulary = false }
+
         do {
             let url = URL(string: baseURL)!
-            let service = VocabularySyncService(context: context, remoteURL: url)
+            let service = VocabularySyncService(modelContainer: context.container, remoteURL: url)
             try await service.syncVocabulary()
         } catch {
             print("Synchronisation error: \(error)")

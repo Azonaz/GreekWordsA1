@@ -1,25 +1,25 @@
 // swiftlint:disable identifier_name
-struct VocabularyFile: Codable {
+nonisolated struct VocabularyFile: Codable, Sendable {
     let vocabulary: Vocabulary
 }
 
-struct Vocabulary: Codable {
+nonisolated struct Vocabulary: Codable, Sendable {
     let groups: [WordGroup]
 }
 
-struct WordGroup: Codable {
+nonisolated struct WordGroup: Codable, Sendable {
     let id: Int
     let name: LocalizedString
     let version: Int
     let words: [WordItem]
 }
 
-struct LocalizedString: Codable {
+nonisolated struct LocalizedString: Codable, Sendable {
     let en: String
     let ru: String
 }
 
-struct WordItem: Codable {
+nonisolated struct WordItem: Codable, Sendable {
     let id: Int
     let gr: String
     let en: String

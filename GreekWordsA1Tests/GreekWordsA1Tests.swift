@@ -1,6 +1,7 @@
 import XCTest
 @testable import GreekWordsA1
 import FSRS
+import SwiftData
 
 final class TrainingSchedulerWordsForTodayTests: XCTestCase {
 
@@ -180,5 +181,89 @@ final class QuizStatsTests: XCTestCase {
 
         // Then: division by zero is avoided
         XCTAssertEqual(average, 10)
+    }
+}
+
+final class VocabularySyncServiceTests: XCTestCase {
+
+    func test_groupVersionUpdateUpsertsWordsAndPreservesExistingProgress() async throws {
+        let container = try makeInMemoryContainer()
+        let context = ModelContext(container)
+
+        let group = GroupMeta(id: 1, version: 1, nameEn: "Old group", nameRu: "Старая группа", opened: true)
+        let existingWord = Word(localID: 10, groupID: 1, gr: "παλιό", en: "Old typo", ru: "Старое")
+        let existingProgress = WordProgress(
+            compositeID: existingWord.compositeID,
+            learned: true,
+            correctAnswers: 7,
+            seen: true
+        )
+        existingProgress.state = .review
+        existingProgress.scheduledDays = 12
+
+        context.insert(group)
+        context.insert(existingWord)
+        context.insert(existingProgress)
+        try context.save()
+
+        let file = VocabularyFile(
+            vocabulary: Vocabulary(
+                groups: [
+                    WordGroup(
+                        id: 1,
+                        name: LocalizedString(en: "Updated group", ru: "Новая группа"),
+                        version: 2,
+                        words: [
+                            WordItem(id: 10, gr: "νέο", en: "Corrected", ru: "Исправлено"),
+                            WordItem(id: 11, gr: "λέξη", en: "Word", ru: "Слово")
+                        ]
+                    )
+                ]
+            )
+        )
+
+        let service = VocabularySyncService(
+            modelContainer: container,
+            remoteURL: URL(string: "https://example.com/words.json")!
+        )
+        try await service.syncVocabularyFile(file)
+
+        let verificationContext = ModelContext(container)
+        let groups = try verificationContext.fetch(FetchDescriptor<GroupMeta>())
+        let words = try verificationContext.fetch(FetchDescriptor<Word>())
+        let progresses = try verificationContext.fetch(FetchDescriptor<WordProgress>())
+
+        XCTAssertEqual(groups.first?.version, 2)
+        XCTAssertEqual(groups.first?.nameEn, "Updated group")
+        XCTAssertEqual(groups.first?.opened, true)
+
+        XCTAssertEqual(words.count, 2)
+        let updatedWord = try XCTUnwrap(words.first { $0.compositeID == "1_10" })
+        XCTAssertEqual(updatedWord.gr, "νέο")
+        XCTAssertEqual(updatedWord.en, "Corrected")
+        XCTAssertEqual(updatedWord.ru, "Исправлено")
+
+        let preservedProgress = try XCTUnwrap(progresses.first { $0.compositeID == "1_10" })
+        XCTAssertEqual(preservedProgress.state, .review)
+        XCTAssertEqual(preservedProgress.scheduledDays, 12)
+        XCTAssertEqual(preservedProgress.correctAnswers, 7)
+        XCTAssertTrue(preservedProgress.learned)
+        XCTAssertTrue(preservedProgress.seen)
+
+        let newProgress = try XCTUnwrap(progresses.first { $0.compositeID == "1_11" })
+        XCTAssertEqual(newProgress.state, .new)
+        XCTAssertEqual(newProgress.correctAnswers, 0)
+        XCTAssertFalse(newProgress.seen)
+    }
+
+    private func makeInMemoryContainer() throws -> ModelContainer {
+        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+        return try ModelContainer(
+            for: Word.self,
+            GroupMeta.self,
+            WordProgress.self,
+            QuizStats.self,
+            configurations: configuration
+        )
     }
 }

@@ -1,5 +1,5 @@
 import Foundation
-@testable import GreekWordsB1
+@testable import GreekWordsA1
 import FSRS
 
 extension WordProgress {
