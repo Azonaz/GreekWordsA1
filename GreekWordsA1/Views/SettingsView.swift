@@ -15,6 +15,7 @@ struct SettingsView: View {
     @State private var restoreMessage: String?
     @State private var showLevels = false
     @State private var showTrainingPaywall = false
+    @State private var showTutorial = false
 
     private var cornerRadius: CGFloat {
         sizeClass == .regular ? 25 : 20
@@ -173,6 +174,28 @@ struct SettingsView: View {
                     }
                 }
 
+                // Tutorial
+                Button {
+                    showTutorial = true
+                } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: "lightbulb.min")
+                            .font(.body)
+                            .imageScale(.large)
+                            .foregroundColor(.primary)
+
+                        Text(Texts.tutorial)
+                            .font(.body)
+                            .foregroundColor(.primary)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.vertical, 8)
+                }
+
                 // Other levels
                 Button {
                     showLevels = true
@@ -237,6 +260,11 @@ struct SettingsView: View {
         }
         .navigationDestination(isPresented: $showTrainingPaywall) {
             TrainingPaywallView()
+        }
+        .fullScreenCover(isPresented: $showTutorial) {
+            OnboardingView {
+                showTutorial = false
+            }
         }
     }
 

@@ -45,6 +45,8 @@ The Statistics section includes two additional sets:
 
 You can revisit these lists at any time to strengthen weak areas and maintain steady progress.
 
+You can also tap the card with the Greek word to hear its pronunciation.
+
 Try the Training mode free for one week. After the trial, full access can be unlocked with a one-time purchase.";
 "showTranslation" = "Show translation";
 "wordsDone" = "All the words for today are done!";
@@ -104,3 +106,28 @@ To open a group, complete at least one topic in the Quiz section.";
 "locked" = "Locked";
 "wordDayHelpInfo" = "In the “Word of the Day” section, the letters are scrambled, and your task is to arrange them to form the hidden Greek word.
 A hint is available to help you.";
+"tutorial" = "Tutorial";
+"onboardingQuizTitle" = "Practice words in quizzes";
+"onboardingQuizText" = "Words in quizzes are grouped by topic.
+In the regular quiz, choose the translation of a Greek word. In the reverse quiz, choose the Greek word from its translation.
+Each round has 10 questions.";
+"onboardingRandomQuizTitle" = "Random quizzes";
+"onboardingRandomQuizText" = "Practice words in a mixed mode.  
+Each round contains 10 random words from all available words.";
+"onboardingHiddenTitle" = "Make practice harder";
+"onboardingHiddenText" = "Hidden mode for quizzes.
+First, try to remember the word. Then reveal the options and choose the correct answer.";
+"onboardingTrainingTitle" = "Reinforce words in training";
+"onboardingTrainingText" = "Spaced repetition helps you remember words better.
+Take a quiz on a topic to add its words to training.
+Tap the Greek word card to hear pronunciation.";
+"onboardingReviewTitle" = "Remember words long-term";
+"onboardingReviewText" = "In training, you review words.
+After each answer, rate how easily you remembered the word. This determines when it will appear again.";
+"onboardingWordDayTitle" = "Word of the Day";
+"onboardingWordDayText" = "Unscramble the letters to form a Greek word.  
+Use a hint to see the translation.";
+"onboardingSettingsTitle" = "Set it up your way";
+"onboardingSettingsText" = "Set the translation language, how many new words you learn per day, and whether answers are shown in quizzes.
+
+You can revisit this tutorial anytime in Settings.";

@@ -158,7 +158,7 @@ struct TrainingSelectionView: View {
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
                 .lineLimit(isSingleWord ? 1 : nil)
-                .minimumScaleFactor(isSingleWord ? 0.4 : 1)
+                .minimumScaleFactor(isSingleWord ? 0.4 : 0.7)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity)
