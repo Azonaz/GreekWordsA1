@@ -154,6 +154,7 @@ final class WordDayModel: ObservableObject {
             Task { @MainActor in
                 try? await Task.sleep(nanoseconds: 1_300_000_000)
                 service.markSolved(word)
+                AnalyticsService.shared.track(.wordDaySolved)
                 isSolved = true
                 result = nil
                 isChecking = false

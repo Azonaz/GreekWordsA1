@@ -138,6 +138,9 @@ struct StatisticsView: View {
             }
         }
         .navigationTitle("")
+        .onAppear {
+            AnalyticsService.shared.track(.statsOpen)
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(Texts.statistics)

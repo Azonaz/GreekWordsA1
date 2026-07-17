@@ -2,6 +2,8 @@ import SwiftUI
 
 let baseURL = "https://azonaz.github.io/words-gr-a1new.json"
 let appRate = "https://apps.apple.com/cy/app/greek-words-a1/id6474042509?action=write-review"
+let endpoint = URL(string: "https://poke.octopi-tracker.com/v1/event")!
+let appKey = "a1"
 
 enum Texts {
     static let quiz: LocalizedStringKey = "quiz"

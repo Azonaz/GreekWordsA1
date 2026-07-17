@@ -75,6 +75,7 @@ struct TrainingView: View {
             }
         }
         .task {
+            trackTrainingOpen()
             await loadDueWords()
         }
         .onDisappear {
@@ -88,5 +89,12 @@ struct TrainingView: View {
                     .foregroundColor(.primary)
             }
         }
+    }
+}
+
+private extension TrainingView {
+    func trackTrainingOpen() {
+        let progress = (try? context.fetch(FetchDescriptor<WordProgress>())) ?? []
+        AnalyticsService.shared.track(.trainingOpen, value: StatsService.learnedWordsCount(progress))
     }
 }

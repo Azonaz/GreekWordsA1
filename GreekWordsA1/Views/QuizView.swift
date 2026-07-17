@@ -275,12 +275,26 @@ private extension QuizView {
 
     func saveQuizResult() {
         let result = Int((Double(correctCount) / Double(quizWords.count)) * 100)
+        AnalyticsService.shared.track(quizCompletedEventCode)
 
         if let stats = try? context.fetch(FetchDescriptor<QuizStats>()).first {
             stats.completedCount += 1
             stats.totalScore += result
         } else {
             context.insert(QuizStats(completedCount: 1, totalScore: result))
+        }
+    }
+
+    var quizCompletedEventCode: AnalyticsEventCode {
+        if group == nil {
+            return .quizRandom
+        }
+
+        switch mode {
+        case .direct:
+            return .quizNormal
+        case .reverse:
+            return .quizReverse
         }
     }
 
