@@ -3,7 +3,6 @@ import Foundation
 enum AnalyticsEventCode: String {
     case wordDaySolved = "word-day-solved"
     case statsOpen = "stats-open"
-    case appLanguage = "app-language"
     case blurOn = "blur-on"
     case quizNormal = "quiz-normal"
     case quizReverse = "quiz-reverse"

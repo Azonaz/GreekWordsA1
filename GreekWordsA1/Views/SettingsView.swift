@@ -33,10 +33,6 @@ struct SettingsView: View {
         AppLanguage.code(for: locale)
     }
 
-    private var currentLanguageAnalyticsValue: Int {
-        currentLanguage == "ru" ? 1 : 0
-    }
-
     private var blurEnabledBinding: Binding<Bool> {
         Binding(
             get: { isBlurEnabled },
@@ -56,7 +52,6 @@ struct SettingsView: View {
             List {
                 // Selecting the application language
                 Button {
-                    AnalyticsService.shared.track(.appLanguage, value: currentLanguageAnalyticsValue)
                     openAppSettings()
                 } label: {
                     HStack(spacing: 14) {
