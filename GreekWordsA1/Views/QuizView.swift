@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 struct QuizView: View {
     let group: GroupMeta?
@@ -7,6 +8,7 @@ struct QuizView: View {
     @Query var words: [Word]
     @Environment(\.locale) private var locale
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.requestReview) private var requestReview
     @Environment(\.modelContext) private var context
     @Environment(\.horizontalSizeClass) var sizeClass
     @Environment(\.verticalSizeClass) var vSizeClass
@@ -18,12 +20,16 @@ struct QuizView: View {
     @State private var isCorrect: Bool?
     @State private var correctCount = 0
     @State private var showResult = false
-    @AppStorage("isBlurEnabled") private var isBlurEnabled = false
     @State private var answersBlurred = false
     @State private var haptic = UISelectionFeedbackGenerator()
     @State private var shakeOffset: CGFloat = 0
     @State private var answeredCount = 0
     @State private var isInteractionDisabled = false
+    @State private var shouldRequestReviewAfterResult = false
+
+    @AppStorage("isBlurEnabled") private var isBlurEnabled = false
+    @AppStorage("completedQuizzesForReviewPrompt") private var completedQuizzesForReviewPrompt = 0
+    @AppStorage("didRequestReviewAfterQuizzes") private var didRequestReviewAfterQuizzes = false
 
     private var currentWord: Word? {
         quizWords.isEmpty ? nil : quizWords[currentIndex]
@@ -83,6 +89,12 @@ struct QuizView: View {
             )
         }
         .onChange(of: showResult) { if showResult { saveQuizResult() } }
+        .onChange(of: showResult) {
+            if !showResult, shouldRequestReviewAfterResult {
+                shouldRequestReviewAfterResult = false
+                requestReview()
+            }
+        }
         .navigationTitle("")
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -276,6 +288,12 @@ private extension QuizView {
     func saveQuizResult() {
         let result = Int((Double(correctCount) / Double(quizWords.count)) * 100)
         AnalyticsService.shared.track(quizCompletedEventCode)
+
+        completedQuizzesForReviewPrompt += 1
+        if completedQuizzesForReviewPrompt == 3 && !didRequestReviewAfterQuizzes {
+            didRequestReviewAfterQuizzes = true
+            shouldRequestReviewAfterResult = true
+        }
 
         if let stats = try? context.fetch(FetchDescriptor<QuizStats>()).first {
             stats.completedCount += 1
